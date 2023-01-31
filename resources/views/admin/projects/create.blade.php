@@ -30,6 +30,15 @@
             </div>
             <input type="file" class="form-control" id="cover_image" name="cover_image" onchange="loadFile(event)">
         </div>
+        <div class="mb-3">
+            <label for="type_id" class="form-label">Tipologia</label>
+            <select class="form-select" name="type_id" id="type_id">
+                <option value="">Nessuna Tipologia</option>
+                @foreach ($types as $type)
+                    <option value="{{ $type->id }}" {{old('type_id') == type->id ? 'selected' : ''}}>{{$type->develop}}</option>
+                @endforeach
+            </select>
+        </div>
         <button class="btn btn-primary">Crea Progetto</button>
         @if ($errors->any())
         <div class="alert alert-danger">

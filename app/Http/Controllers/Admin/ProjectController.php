@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Models\Type;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Illuminate\Support\Str;
@@ -32,7 +33,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin.projects.create');
+        $types = Type::all();
+
+        return view('admin.projects.create', compact('types'));
     }
 
     /**
@@ -51,9 +54,9 @@ class ProjectController extends Controller
         $new_project->fill($data);
         $new_project->slug = Str::slug($new_project->title);
 
-        if ( $data['cover_image'] ) { 
-            $img_path = Storage::disk('public')->put('uploads', $data['cover_image']);
-            $new_project->cover_image = $img_path;
+        if ( isset($data['cover_image']) ) { 
+            $data['cover_image'] = Storage::disk('public')->put('uploads', $data['cover_image']);
+            // $new_project->cover_image = $img_path;
             //or
             //$new_project->cover_image = Storage::disk('public')->put('uploads', $data['cover_image']);
         }
